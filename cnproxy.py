@@ -36,9 +36,9 @@ def startRun(num):
         for i in port:
             ports.append(toPort(i))
     for i in xrange(len(ips)):
-        http.append(str(ips[i]+":"+ports[i]))
+        http.append(str("http://"+ips[i]+":"+ports[i]))
     print http
     return http
 
 if __name__ == "__main__":
-    startRun(2)
+    startRun(10)

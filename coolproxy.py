@@ -7,6 +7,9 @@ ips = []
 ports = []
 http = []
 def startRun(num):
+    if num>24:
+        print "error, num too big"
+        return None
     global ips, ports, http
     for i in range(num):
         print i,"pages\n"
@@ -17,11 +20,11 @@ def startRun(num):
         for i in ip:
             ips.append(base64.decodestring(i))
         ports = ports + re.findall("<td>(\d+)</td>", r.text)
-    print ips, ports, len(ips), len(ports)
     for i in xrange(len(ips)):
-        http.append(str(ips[i]+":"+ports[i]))
+        http.append(str("http://"+ips[i]+":"+ports[i]))
+    print http
     return http
 
 
 if __name__ == "__main__":
-    startRun()
+    startRun(24)
