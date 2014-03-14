@@ -13,12 +13,16 @@ coolproxyGoodUrls = []
 ipcnproxtGoodUrls = []
 p = pool.Pool(100)
 
+
+#locks
 cnproxyLock = BoundedSemaphore(1)
 coolproxyLock = BoundedSemaphore(1)
 ipcnproxyLock = BoundedSemaphore(1)
+#test url
 testUrl = "http://www.baidu.com"
 
 def checkUrls(proxyUrl, testUrl, list, lock):
+    """check if url can be used now"""
     try:
         r = requests.get(testUrl, proxies = {"http":proxyUrl}, timeout=3)
         print r.status_code
@@ -35,6 +39,7 @@ def checkUrls(proxyUrl, testUrl, list, lock):
         return
 
 def startCheck(getUrlFunc, goodUrlsList, num, ifnum, lock):
+    """start gevent ,use greenlet to check"""
     if ifnum:
         urls = getUrlFunc(num)
     else:
@@ -44,6 +49,7 @@ def startCheck(getUrlFunc, goodUrlsList, num, ifnum, lock):
         p.spawn(checkUrls, i, testUrl, goodUrlsList, lock)
 
 def startRun():
+    """start task, return the result"""
     p.spawn(startCheck, ipcn.startRun, ipcnproxtGoodUrls, None, 0, ipcnproxyLock)
     #p.spawn(startCheck, cnproxy.startRun, cnprxoyGoodUrls, 5, 1, cnproxyLock)
     p.spawn(startCheck, coolproxy.startRun, coolproxyGoodUrls, 2, 1, coolproxyLock)

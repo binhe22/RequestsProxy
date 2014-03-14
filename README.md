@@ -11,4 +11,6 @@ Import proxy, and call proxt.startRun(), you will get the list.
 * add speed rank to proxy url, and return url by rank ,by timeout
 * make it more easy to add modules
 
+###Example 
+* [beautycrawler](https://github.com/binhe22/beautycrawler) 
 
